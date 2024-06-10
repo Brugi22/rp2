@@ -1,0 +1,164 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 50px;
+    color: white;
+}
+.login-container {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+.login-container h2 {
+    text-align: center;
+}
+.login-container input[type="text"],
+.login-container input[type="password"],
+.login-container input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.login-container input[type="submit"] {
+    width: 100%;
+    background-color: orange;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.login-container input[type="submit"]:hover {
+    background-color: #c89f6d;
+}
+.login-header {
+    background-color: orange;
+    margin: 0px;
+    text-align: center;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px;
+    padding: 10px;
+    background-color: orange;
+}
+.header a {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+}
+.navbar {
+    background-color: orange;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+.navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+.navbar a:hover {
+    background-color: #c89f6d;
+}
+.table-container {
+    display: flex;
+    justify-content: center;
+}
+table {
+    width: 90%;
+    font-size: 20px;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 20px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+.right {
+    font-weight: bold;
+    text-align: right;
+}
+tr:not(:last-child) td {
+    border-bottom: 1px solid #ddd;
+}
+.form-container {
+    background-color: #fff;
+    text-align: center;  
+    padding: 20px;
+    width: 300px;
+}
+.form-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+.form-container label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+.form-container input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.form-container input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+.form-container input[type="submit"]:hover {
+    background-color: #218838;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container {
+    width: 80%;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.announcement {
+    background-color: #e9ecef;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-left: 4px solid #007bff;
+    border-radius: 4px;
+}
+.announcement p {
+    margin: 0;
+    font-size: 16px;
+}
