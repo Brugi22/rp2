@@ -32,7 +32,7 @@
     </div>
 </div>
 
-<div class="center">
+<div class="center" <?php echo ($hideForm) ? 'style="display: none;"' : ''; ?>>
     <div class="form-container">
         <h2>Publish a New Announcement</h2>
         <form action="<?php echo __SITE_URL . '/blogs.php?rt=blog/create_new_announcement&id_blog=' . $blog_id; ?>" method="post">
