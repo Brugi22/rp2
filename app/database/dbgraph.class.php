@@ -55,15 +55,11 @@ $users = [
 $dbGraph = DBGraph::getConnection();
 
 foreach ($users as $user) {
-    $query = 'CREATE (u:User {id: $id, username: $username, email: $email, password: $password, firstName: $firstName, lastName: $lastName})';
+    $query = 'CREATE (u:User {id: $id, username: $username})';
     
     $params = [
         'id' => $user[0],
         'username' => $user[1],
-        'email' => $user[2],
-        'password' => $user[3],
-        'firstName' => $user[4],
-        'lastName' => $user[5]
     ];
 
     try {
