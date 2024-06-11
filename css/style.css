@@ -162,3 +162,32 @@ tr:not(:last-child) td {
     margin: 0;
     font-size: 16px;
 }
+.announcement {
+    background-color: #e9ecef;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-left: 4px solid #007bff;
+    border-radius: 4px;
+}
+.announcement p {
+    margin: 0;
+    font-size: 16px;
+}
+.comments {
+    margin-top: 10px;
+}
+.comments h3 {
+    margin: 10px 0 5px;
+    font-size: 18px;
+}
+.comment {
+    background-color: #f8f9fa;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-left: 2px solid #6c757d;
+    border-radius: 4px;
+}
+.comment p {
+    margin: 0;
+    font-size: 14px;
+}

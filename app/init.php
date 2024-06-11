@@ -10,6 +10,8 @@ require_once __SITE_PATH . '/app/' . 'template.class.php';
 
 require_once __SITE_PATH . '/app/database/' . 'db.class.php';
 
+require_once __SITE_PATH . '/app/database/' . 'dbgraph.class.php';
+
 spl_autoload_register( function( $class_name ) 
 {
 	$filename = strtolower($class_name) . '.class.php';
