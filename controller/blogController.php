@@ -5,7 +5,8 @@ class BlogController extends BaseController
 	public function index() 
 	{
         $bs = new BlogService();
-        $this->registry->template->blogs = $bs -> getBlogsFromLoggedInUser();
+        $this->registry->template->blogs = $bs -> getBlogsFromUser($_SESSION['user_id']);
+        $this->registry->template->hideForm = false;
         $this->registry->template->show( 'new_blog' );
 	}
 
@@ -13,7 +14,8 @@ class BlogController extends BaseController
     {
         $bs = new BlogService();
         $bs -> insertBlog($_POST['blogName']);
-        $this->registry->template->blogs = $bs -> getBlogsFromLoggedInUser();
+        $this->registry->template->blogs = $bs -> getBlogsFromUser($_SESSION['user_id']);
+        $this->registry->template->hideForm = false;
         $this->registry->template->show( 'new_blog' );
     }
 
@@ -23,6 +25,7 @@ class BlogController extends BaseController
         $this->registry->template->announcements = $bs -> getBlogAnnouncement($_GET['id_blog']);
         $this->registry->template->comments = $bs -> getBlogComments();
         $this->registry->template->blog_id = $_GET['id_blog'];
+        $this->registry->template->hideForm = $bs -> hideForm($_GET['id_blog']);
         $this->registry->template->show( 'announcements' );
     }
 
@@ -33,6 +36,7 @@ class BlogController extends BaseController
         $this->registry->template->announcements = $bs -> getBlogAnnouncement($_GET['id_blog']);
         $this->registry->template->comments = $bs -> getBlogComments();
         $this->registry->template->blog_id = $_GET['id_blog'];
+        $this->registry->template->hideForm = $bs -> hideForm($_GET['id_blog']);
         $this->registry->template->show( 'announcements' );
     }
 
@@ -42,6 +46,8 @@ class BlogController extends BaseController
         $bs -> insertComment($_POST['new_comment'], $_GET['id_objava']);
         $this->registry->template->announcements = $bs -> getBlogAnnouncement($_GET['id_blog']);
         $this->registry->template->comments = $bs -> getBlogComments();
+        $this->registry->template->blog_id = $_GET['id_blog'];
+        $this->registry->template->hideForm = $bs -> hideForm($_GET['id_blog']);
         $this->registry->template->show( 'announcements' );
     }
 
@@ -60,6 +66,20 @@ class BlogController extends BaseController
         $this->registry->template->show( 'users' );
     }
 
+    public function followed_users()
+    {
+        $bs = new BlogService();
+        $this->registry->template->users = $bs -> getFollowedUsers($_SESSION['user_id']);
+        $this->registry->template->show( 'followed_users' );
+    }
+
+    public function user()
+    {
+        $bs = new BlogService();
+        $this->registry->template->blogs = $bs -> getBlogsFromUser($_GET['user_id']);
+        $this->registry->template->hideForm = true;
+        $this->registry->template->show( 'new_blog' );
+    }
 }; 
 
 ?>

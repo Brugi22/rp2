@@ -17,12 +17,12 @@ class BlogService {
 		catch( PDOException $e ) { exit( 'PDO error ' . $e->getMessage() ); }
     }
 
-    function getBlogsFromLoggedInUser() {
+    function getBlogsFromUser($userId) {
         try
         {
             $db = DB::getConnection();
             $st = $db->prepare( 'SELECT * FROM blog WHERE id_korisnik=:id');
-            $st->execute(array( 'id' => $_SESSION['user_id'] ));
+            $st->execute(array( 'id' => $userId ));
         }
         catch( PDOException $e ) { exit( 'PDO error ' . $e->getMessage() ); }
 
@@ -30,6 +30,21 @@ class BlogService {
 		while( $row = $st->fetch() ) $arr[] = new Blog($row['id_blog'], $row['id_korisnik'], $row['ime_blog'], $row['blog_timestamp']);
 
         return $arr;
+    }
+
+    function hideForm($blogId) {
+        try
+        {
+            $db = DB::getConnection();
+            $st = $db->prepare( 'SELECT id_korisnik FROM blog WHERE id_blog=:id');
+            $st->execute(array( 'id' => $blogId ));
+        }
+        catch( PDOException $e ) { exit( 'PDO error ' . $e->getMessage() ); }
+
+        $row = $st->fetch();
+
+        if($row['id_korisnik'] == $_SESSION['user_id']) return false;
+        else return true;
     }
 
     function getBlogAnnouncement($blogId) {
@@ -112,9 +127,9 @@ class BlogService {
         try {
             $db = DBGraph::getConnection();
             $query = '
-                MATCH (a:User {id: $followerId}), (b:User {id: $followeeId})
+                MATCH (a:User {id: "' . $followerId . '"}), (b:User {id: "' . $followeeId . '"})
                 CREATE (a)-[:FOLLOWS]->(b)';
-            $db->sendCypherQuery($query, ['followerId' => $followerId, 'followeeId' => $followeeId]);
+            $db->sendCypherQuery($query);
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
         }
@@ -125,20 +140,23 @@ class BlogService {
         try {
             $db = DBGraph::getConnection();
             $query = '
-                MATCH (a:User {id: {userId}})-[:FOLLOWS]->(b:User)
+                MATCH (a:User {id: "' . $userId . '"})-[:FOLLOWS]->(b:User)
                 RETURN b.id AS id, b.username AS username';
-            $parameters = ['userId' => $userId];
-            $result = $db->sendCypherQuery($query, $parameters)->getResult();
+            $result = $db->sendCypherQuery($query)->getResult();
 
-            $followedUsers = [];
-            foreach ($result->getNodes() as $node) {
-                $followedUsers[] = [
-                    'id' => $node->getProperty('id'),
-                    'username' => $node->getProperty('username')
-                ];
+            $users = [];
+            $tableFormat = $result->getTableFormat();
+
+            foreach ($tableFormat as $row) {
+                $user = [];
+                if (isset($row['id']) && isset($row['username'])) {
+                    $user['id'] = (string)$row['id'];
+                    $user['username'] = (string)$row['username'];
+                    $users[] = $user;
+                }
             }
 
-            return $followedUsers;
+            return $users;
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
             return [];
@@ -150,23 +168,27 @@ class BlogService {
         try {
             $db = DBGraph::getConnection();
 
+            $userId = $_SESSION['user_id']; 
             $query = '
                 MATCH (u:User)
-                WHERE u.id <> $userId AND NOT EXISTS {
-                    MATCH (:User {id: $userId})-[:FOLLOWS]->(u)
+                WHERE u.id <> "' . $userId . '" AND NOT EXISTS {
+                    MATCH (:User {id: "' . $userId . '"})-[:FOLLOWS]->(u)
                 }
                 RETURN u.id AS id, u.username AS username
             ';
-            $parameters = ['userId' => $_SESSION['user_id']];
-            $result = $db->sendCypherQuery($query, $parameters)->getResult();
-            echo var_dump($result);
+            
+            $result = $db->sendCypherQuery($query)->getResult();
 
             $users = [];
-            foreach ($result->getNodes() as $node) {
-                $users[] = [
-                    'id' => $node->getProperty('id'),
-                    'username' => $node->getProperty('username')
-                ];
+            $tableFormat = $result->getTableFormat();
+
+            foreach ($tableFormat as $row) {
+                $user = [];
+                if (isset($row['id']) && isset($row['username'])) {
+                    $user['id'] = (string)$row['id'];
+                    $user['username'] = (string)$row['username'];
+                    $users[] = $user;
+                }
             }
 
             return $users;

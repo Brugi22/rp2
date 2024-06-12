@@ -16,6 +16,6 @@
 
 	<div class="navbar">
 		<a href="<?php echo __SITE_URL; ?>/blogs.php?rt=blog">My Blogs</a>
-		<a href="<?php echo __SITE_URL; ?>/blogs.php?rt=blog">Following</a>
+		<a href="<?php echo __SITE_URL; ?>/blogs.php?rt=blog/followed_users">Following</a>
 		<a href="<?php echo __SITE_URL; ?>/blogs.php?rt=blog/users">Find users</a>
 	</div>

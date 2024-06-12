@@ -16,7 +16,7 @@ class DBGraph
         if (DBGraph::$db === null) {
             try {
                 DBGraph::$db = ClientBuilder::create()
-                    ->addConnection('default', 'http', '31.147.200.189', 7474, true, 'neo4j', 'nbp')
+                    ->addConnection('default', 'http', '31.147.200.154', 7474, true, 'neo4j', 'nbp')
                     ->setAutoFormatResponse(true)
                     ->build();
             } catch (Exception $e) {
