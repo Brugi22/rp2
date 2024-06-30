@@ -13,7 +13,7 @@ class DB
 	    {
 	    	try
 	    	{
-		    	DB::$db = new PDO( "pgsql: host=31.147.200.162; dbname=postgres;", 'postgres', 'password' );
+		    	DB::$db = new PDO( "mysql: host=rp2.studenti.math.hr; dbname=silaj;", 'student', 'pass.mysql' );
 		    	DB::$db-> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		    }
 		    catch( PDOException $e ) { exit( 'PDO Error: ' . $e->getMessage() ); }
