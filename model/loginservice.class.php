@@ -48,15 +48,10 @@ class LogInService {
             $_SESSION['username'] = $username;
             $_SESSION['user_id'] = $db->lastInsertId();
 
-            $bs = new BlogService();
-            $bs->createUser($_SESSION['user_id'], $username);
-
             return true;
         } catch (PDOException $e) {
             exit('PDO error ' . $e->getMessage());
         }
 
-        return false;
     }
 }
-?>
