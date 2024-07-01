@@ -75,5 +75,3 @@ class Router
 		$this->file = $this->path .'/'. $this->controller . 'Controller.php';
 	}
 }
-
-?>

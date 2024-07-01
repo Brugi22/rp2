@@ -111,61 +111,10 @@ class BlogService {
 		catch( PDOException $e ) { exit( 'PDO error ' . $e->getMessage() ); }
     }
 
-    public function createUser($id, $username)
-    {
-        try {
-            $db = DBGraph::getConnection();
-            $query = 'CREATE (u:User {id: $id, username: $username})';
-            $db->sendCypherQuery($query, ['id' => $id, 'username' => $username]);
-        } catch (Exception $e) {
-            echo 'Error: ' . $e->getMessage() . "\n";
-        }
-    }
-
-    public function createFollowsRelationship($followerId, $followeeId)
-    {
-        try {
-            $db = DBGraph::getConnection();
-            $query = '
-                MATCH (a:User {id: "' . $followerId . '"}), (b:User {id: "' . $followeeId . '"})
-                CREATE (a)-[:FOLLOWS]->(b)';
-            $db->sendCypherQuery($query);
-        } catch (Exception $e) {
-            echo 'Error: ' . $e->getMessage();
-        }
-    }
-
-    public function getFollowedUsers($userId)
-    {
-        try {
-            $db = DBGraph::getConnection();
-            $query = '
-                MATCH (a:User {id: "' . $userId . '"})-[:FOLLOWS]->(b:User)
-                RETURN b.id AS id, b.username AS username';
-            $result = $db->sendCypherQuery($query)->getResult();
-
-            $users = [];
-            $tableFormat = $result->getTableFormat();
-
-            foreach ($tableFormat as $row) {
-                $user = [];
-                if (isset($row['id']) && isset($row['username'])) {
-                    $user['id'] = (string)$row['id'];
-                    $user['username'] = (string)$row['username'];
-                    $users[] = $user;
-                }
-            }
-
-            return $users;
-        } catch (Exception $e) {
-            echo 'Error: ' . $e->getMessage();
-            return [];
-        }
-    }
-
     public function getUsers()
     {
-        try {
+        return null;
+        /*try {
             $db = DBGraph::getConnection();
 
             $userId = $_SESSION['user_id']; 
@@ -195,7 +144,6 @@ class BlogService {
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
             return [];
-        }
+        }*/
     }
 }
-?>

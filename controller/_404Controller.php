@@ -7,5 +7,3 @@ class _404Controller extends BaseController
         $this->registry->template->show( '404_index' );
 	}
 }; 
-
-?>

@@ -7,18 +7,20 @@ $db = DB::getConnection();
 $has_tables = false;
 
 try {
-    $st = $db->prepare('SELECT 1 FROM information_schema.tables WHERE table_name = ?');
+    $st = $db->prepare( 
+        'SHOW TABLES LIKE :tblname'
+    );
 
-    $st->execute(['korisnik']);
+    $st->execute( array( 'tblname' => 'korisnik' ) );
     if ($st->rowCount() > 0) $has_tables = true;
 
-    $st->execute(['blog']);
+    $st->execute( array( 'tblname' => 'blog' ) );
     if ($st->rowCount() > 0) $has_tables = true;
 
-    $st->execute(['objava']);
+    $st->execute( array( 'tblname' => 'objava' ) );
     if ($st->rowCount() > 0) $has_tables = true;
 
-    $st->execute(['komentar']);
+    $st->execute( array( 'tblname' => 'komentar' ) );
     if ($st->rowCount() > 0) $has_tables = true;
 
 } catch (PDOException $e) {
@@ -56,10 +58,9 @@ try {
             id_blog INT AUTO_INCREMENT PRIMARY KEY,
             id_korisnik INT NOT NULL,
             ime_blog VARCHAR(200) NOT NULL,
-            blog_timestamp TIMESTAMP NOT NULL,
-            CONSTRAINT fk_blog FOREIGN KEY (id_korisnik) REFERENCES korisnik(id_korisnik) ON DELETE CASCADE
-        )'
-    );
+            blog_timestamp TIMESTAMP NOT NULL
+        );');
+            /* CONSTRAINT fk_blog_korisnik FOREIGN KEY (id_korisnik) REFERENCES korisnik(id_korisnik) ON DELETE CASCADE */
     $st->execute();
 
     $st = $db->prepare('CREATE INDEX blog_indx ON blog (id_korisnik)');
@@ -77,11 +78,12 @@ try {
             id_blog INT NOT NULL,
             id_korisnik INT NOT NULL,
             sadrzaj_objava VARCHAR(10000) NOT NULL,
-            objava_timestamp TIMESTAMP NOT NULL,
-            CONSTRAINT fk_objava_blog FOREIGN KEY (id_blog) REFERENCES blog(id_blog) ON DELETE CASCADE,
-            CONSTRAINT fk_objava_korisnik FOREIGN KEY (id_korisnik) REFERENCES korisnik(id_korisnik) ON DELETE CASCADE
+            objava_timestamp TIMESTAMP NOT NULL
         )'
+                   
     );
+     /* CONSTRAINT fk_objava_blog FOREIGN KEY (id_blog) REFERENCES blog(id_blog) ON DELETE CASCADE,
+            CONSTRAINT fk_objava_korisnik FOREIGN KEY (id_korisnik) REFERENCES korisnik(id_korisnik) ON DELETE CASCADE */
     $st->execute();
 
     $st = $db->prepare('CREATE INDEX objava_indx ON objava (id_blog, id_korisnik)');
@@ -99,11 +101,13 @@ try {
             id_objava INT NOT NULL,
             id_korisnik INT NOT NULL,
             sadrzaj_komentar VARCHAR(10000) NOT NULL,
-            komentar_timestamp TIMESTAMP NOT NULL,
-            CONSTRAINT fk_komentar_objava FOREIGN KEY (id_objava) REFERENCES objava(id_objava) ON DELETE CASCADE,
-            CONSTRAINT fk_komentar_korisnik FOREIGN KEY (id_korisnik) REFERENCES korisnik(id_korisnik) ON DELETE CASCADE
+            komentar_timestamp TIMESTAMP NOT NULL
+          
         )'
+          
     );
+    /* CONSTRAINT fk_komentar_objava FOREIGN KEY (id_objava) REFERENCES objava(id_objava) ON DELETE CASCADE,
+            CONSTRAINT fk_komentar_korisnik FOREIGN KEY (id_korisnik) REFERENCES korisnik(id_korisnik) ON DELETE CASCADE */
     $st->execute();
 
     $st = $db->prepare('CREATE INDEX komentar_indx ON komentar (id_korisnik)');
@@ -113,5 +117,3 @@ try {
 } catch (PDOException $e) {
     exit("PDO error [create komentar]: " . $e->getMessage());
 }
-
-?>

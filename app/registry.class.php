@@ -14,5 +14,3 @@ class Registry
 		return $this->vars[$index];
 	}
 }
-
-?>

@@ -58,21 +58,6 @@ class BlogController extends BaseController
         $this->registry->template->show( 'users' );
     }
 
-    public function follow_user()
-    {
-        $bs = new BlogService();
-        $bs -> createFollowsRelationship($_SESSION['user_id'], $_GET['user_id']);
-        $this->registry->template->users = $bs -> getUsers();
-        $this->registry->template->show( 'users' );
-    }
-
-    public function followed_users()
-    {
-        $bs = new BlogService();
-        $this->registry->template->users = $bs -> getFollowedUsers($_SESSION['user_id']);
-        $this->registry->template->show( 'followed_users' );
-    }
-
     public function user()
     {
         $bs = new BlogService();
@@ -81,5 +66,3 @@ class BlogController extends BaseController
         $this->registry->template->show( 'new_blog' );
     }
 }; 
-
-?>

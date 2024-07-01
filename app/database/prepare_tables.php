@@ -133,5 +133,3 @@ try {
 } catch (PDOException $e) {
     exit("PDO error [insert komentar]: " . $e->getMessage());
 }
-
-?>
